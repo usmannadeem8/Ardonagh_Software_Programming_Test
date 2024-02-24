@@ -1,0 +1,52 @@
+﻿<!-- Index.cshtml -->
+@model List<CustomerModel>
+<!-- Display list/grid of customers -->
+
+
+<div class="container-fluid">
+
+    <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="float-left">Users List</h3>
+                <div class="card-header-actions float-right">
+                    <a asp-action="Add" asp-controller="Home" class="btn btn-sm btn-info"><i class="fa-regular fa-plus"></i> Add New Customer</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Post Code</th>
+                                    <th>Height</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@Model[i].Name</td>
+                                        <td>@Model[i].Age</td>
+                                        <td>@Model[i].PostCode</td>
+                                        <td>@Model[i].Height</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="Home" asp-route-index="@i">Edit</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

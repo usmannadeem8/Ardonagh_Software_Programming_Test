@@ -1,0 +1,121 @@
+﻿@model CustomerModel
+
+<div class="container-fluid">
+    <div class="col-sm-4"></div>
+    <div class="animated fadeIn col-sm-4 offset-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-plus"></i> Add Customer
+                <div class="card-header-actions align float-right">
+                    <a asp-action="Index" class="btn btn-sm btn-info">Back to List</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form asp-action="AddEdit" onchange="EnableSubmitButton()">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" maxlength="50" placeholder="Max 50 characters!" class="form-control" id="Name" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Age" class="control-label"></label>
+                                <input asp-for="Age" type="number" min="0" max="110" placeholder="[0-110]" class="form-control" id="Age" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PostCode" class="control-label"></label>
+                                <input asp-for="PostCode" placeholder="Must have character and number!" class="form-control" id="PostCode" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Height" class="control-label"></label>
+                                <input asp-for="Height" type="number" min="0" max="2.50" placeholder="Max 2.50 and Only 2 decimal places!" class="form-control" id="Height" />
+                            </div>
+                            <div class="form-group float-right">
+                                <input type="submit" value="OK" disabled="disabled" class="btn btn-light" id="BtnSubmit" />
+                                <a asp-action="Index" class="btn btn-sm btn-danger">Cancel</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<script>
+
+    function ValidateName() {
+        var userInput = document.getElementById("Name").value;
+        if (userInput.length <= 50 && userInput.length >= 1) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    function ValidateAge() {
+        var userInput = document.getElementById("Age").value;
+        if (userInput.length <= 110 && userInput.length >= 0) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function hasNumberAndCharacter(inputString) {
+        // Check if the string contains at least one number and one character
+        return /[0-9]/.test(inputString) && /[a-zA-Z]/.test(inputString);
+    }
+
+    function ValidatePostCode() {
+        var userInput = document.getElementById("PostCode").value;
+        var resultMessageElement = document.getElementById("resultMessage");
+
+        if (hasNumberAndCharacter(userInput)) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function hasTwoDecimalPlacesAndLessThanEqual2_50(inputDouble) {
+        // Check if the number has exactly two decimal places and is less than or equal to 2.50
+        var regex = /^\d+(\.\d{1,2})?$/;
+        return regex.test(inputDouble) && parseFloat(inputDouble) <= 2.50 && parseFloat(inputDouble) >= 0.00;
+    }
+
+    function ValidateHeight() {
+        var userInput = document.getElementById("Height").value;
+        var resultMessageElement = document.getElementById("resultMessage");
+
+        if (hasTwoDecimalPlacesAndLessThanEqual2_50(userInput)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function EnableSubmitButton() {
+        if (ValidateName() == true && ValidateAge() == true && ValidatePostCode() == true && ValidateHeight() == true) {
+            document.getElementById("BtnSubmit").disabled = false;
+            $("#BtnSubmit").removeClass("btn-light");
+            $("#BtnSubmit").addClass("btn-sm btn-success");
+        } else {
+            document.getElementById("BtnSubmit").disabled = true;
+            $("#BtnSubmit").removeClass("btn-sm btn-success");
+            $("#BtnSubmit").addClass("btn-light");
+        }
+    }
+
+    $(document).ready(function () {
+        EnableSubmitButton();
+    });
+</script>
